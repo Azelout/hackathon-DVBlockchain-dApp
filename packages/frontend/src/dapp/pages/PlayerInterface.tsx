@@ -1,4 +1,6 @@
 import React from 'react';
+import useOwnCards from '~~/dapp/hooks/useOwnCards';
+import CardComponent from '~~/dapp/components/CardComponent';
 
 /**
  * PlayerInterface Component
@@ -8,6 +10,16 @@ import React from 'react';
  * It also displays the player's deck of objects.
  */
 const PlayerInterface: React.FC = () => {
+  const { data: cards, isPending, error } = useOwnCards();
+
+  // Filter cards to only show "Card Game" cards
+  const gameCards = React.useMemo(() => {
+    if (!cards?.data) return [];
+    return cards.data.filter((card: any) => {
+      const gameField = card.data?.content?.fields?.game;
+      return gameField === "Game Card";
+    });
+  }, [cards]);
 
   // Placeholder function for navigation
   const handleNavigation = (destination: string) => {
@@ -18,7 +30,7 @@ const PlayerInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white p-4">
-      
+
       {/* Top Section: Action Buttons */}
       <div className="flex flex-col items-center justify-center space-y-4 mt-10">
         <button
@@ -42,35 +54,34 @@ const PlayerInterface: React.FC = () => {
       {/* Bottom Section: Deck of Objects */}
       <div className="w-full border-t border-gray-700 pt-4 pb-8">
         <h2 className="text-xl font-bold mb-4 text-center">Your Deck</h2>
-        
+
         {/* Horizontal Deck Container */}
-        <div className="flex overflow-x-auto space-x-4 px-4 pb-2 justify-center">
-          
-          {/* Placeholder Card 1 */}
-          <div className="min-w-[100px] h-[140px] bg-gray-800 border border-gray-600 rounded-md flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Object 1</span>
-          </div>
+        <div className="flex overflow-x-auto space-x-4 px-4 pb-2 justify-center min-h-[260px]">
 
-          {/* Placeholder Card 2 */}
-          <div className="min-w-[100px] h-[140px] bg-gray-800 border border-gray-600 rounded-md flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Object 2</span>
-          </div>
+          {isPending && (
+            <div className="flex items-center justify-center text-gray-400">
+              Loading deck...
+            </div>
+          )}
 
-          {/* Placeholder Card 3 */}
-          <div className="min-w-[100px] h-[140px] bg-gray-800 border border-gray-600 rounded-md flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Object 3</span>
-          </div>
+          {error && (
+            <div className="flex items-center justify-center text-red-400">
+              Error loading deck
+            </div>
+          )}
 
-          {/* Dynamic Content Placeholder */}
-          {/* 
-            TODO: Map through actual player objects here.
-            Example:
-            {deck.map((item) => (
-              <CardComponent key={item.id} data={item} />
-            ))}
-          */}
-          
-          <div className="min-w-[100px] h-[140px] border-2 border-dashed border-gray-600 rounded-md flex items-center justify-center opacity-50">
+          {!isPending && !error && gameCards.length === 0 && (
+            <div className="flex items-center justify-center text-gray-500 italic">
+              No game cards found. Create some!
+            </div>
+          )}
+
+          {gameCards.map((card: any) => (
+            <CardComponent key={card.data?.objectId} card={card} />
+          ))}
+
+          {/* Empty Slot Placeholder (always visible to suggest adding more) */}
+          <div className="min-w-[160px] h-[240px] border-2 border-dashed border-gray-600 rounded-xl flex items-center justify-center opacity-50 flex-shrink-0">
             <span className="text-gray-500 text-xs text-center px-2">Empty Slot</span>
           </div>
 
