@@ -6,8 +6,13 @@ import Header from '~~/components/layout/Header'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6">
-      <Header />
+    <div 
+      className="flex min-h-screen flex-col items-center justify-center gap-6" 
+      style={{ 
+        background: 'radial-gradient(ellipse at center, #2d2d2d 0%, #1a1a1a 35%, #000000 70%, #000000 100%)'
+      }}
+    >
+      {/* Header removed */}
 
       <Body>{children}</Body>
 

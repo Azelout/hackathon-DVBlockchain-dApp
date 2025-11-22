@@ -13,9 +13,9 @@ const CardComponent: React.FC<CardComponentProps> = ({ card }) => {
     const points = getResponseDisplayField(card, 'points')
 
     return (
-        <div className="min-w-[160px] h-[240px] bg-gray-800 border border-gray-600 rounded-xl overflow-hidden flex flex-col shadow-lg hover:scale-105 transition-transform duration-200">
+        <div className="min-w-[180px] h-[270px] bg-gray-800 border border-gray-600 rounded-xl overflow-hidden flex flex-col shadow-lg hover:scale-105 transition-transform duration-200">
             {/* Image Section */}
-            <div className="h-[140px] w-full bg-gray-700 relative">
+            <div className="h-[160px] w-full bg-gray-700 relative">
                 {points && (
                     <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md z-10">
                         {points}
@@ -38,7 +38,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ card }) => {
             <div className="p-3 flex flex-col flex-grow justify-between bg-gray-900">
                 <div>
                     <h3 className="font-bold text-white text-sm truncate" title={name}>{label}</h3>
-                    <p className="text-xs text-gray-400 mt-1 line-clamp-2" title={description || ''}>
+                    <p className="text-xs text-gray-400 mt-1 line-clamp-3" title={description || ''}>
                         {description}
                     </p>
                 </div>
