@@ -10,11 +10,17 @@ const CardComponent: React.FC<CardComponentProps> = ({ card }) => {
     const label = getResponseDisplayField(card, 'label') || 'Unknown Card label'
     const img = getResponseDisplayField(card, 'image_url')
     const description = getResponseDisplayField(card, 'description')
+    const points = getResponseDisplayField(card, 'points')
 
     return (
         <div className="min-w-[160px] h-[240px] bg-gray-800 border border-gray-600 rounded-xl overflow-hidden flex flex-col shadow-lg hover:scale-105 transition-transform duration-200">
             {/* Image Section */}
             <div className="h-[140px] w-full bg-gray-700 relative">
+                {points && (
+                    <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md z-10">
+                        {points}
+                    </div>
+                )}
                 {img ? (
                     <img
                         src={img}
