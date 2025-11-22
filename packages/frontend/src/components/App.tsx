@@ -6,6 +6,7 @@ import { useCurrentAccount } from '@mysten/dapp-kit'
 import { FC, StrictMode, useState, useEffect } from 'react'
 import IndexPage from '~~/dapp/pages/IndexPage'
 import PlayerInterface from '~~/dapp/pages/PlayerInterface'
+import CombatPage from '~~/dapp/pages/CombatPage'
 import { APP_NAME } from '~~/config/main'
 import { getThemeSettings } from '~~/helpers/theme'
 import useNetworkConfig from '~~/hooks/useNetworkConfig'
@@ -17,7 +18,7 @@ const themeSettings = getThemeSettings()
 
 const MainContent: FC = () => {
   const currentAccount = useCurrentAccount()
-  const [currentPage, setCurrentPage] = useState<'home' | 'player'>('home')
+  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat'>('home')
 
   useEffect(() => {
     if (currentAccount) {
@@ -30,14 +31,16 @@ const MainContent: FC = () => {
   const renderPage = () => {
     switch (currentPage) {
       case 'player':
-        return <PlayerInterface />
+        return <PlayerInterface onNavigate={(page: string) => setCurrentPage(page as any)} />
+      case 'combat':
+        return <CombatPage onNavigate={(page: string) => setCurrentPage(page as any)} />
       default:
         return (
           <div>
             <IndexPage />
             {/* Optional: Keep manual button for testing if needed, or remove if auto-switch is sufficient */}
-             <div className="fixed bottom-4 right-4">
-              <button 
+            <div className="fixed bottom-4 right-4">
+              <button
                 onClick={() => setCurrentPage('player')}
                 className="bg-blue-600 text-white px-4 py-2 rounded shadow-lg hover:bg-blue-700"
               >
@@ -53,8 +56,8 @@ const MainContent: FC = () => {
     <>
       {renderPage()}
       {currentPage === 'player' && (
-         <div className="fixed bottom-4 right-4">
-          <button 
+        <div className="fixed bottom-4 right-4">
+          <button
             onClick={() => setCurrentPage('home')}
             className="relative px-8 py-3 rounded-3xl font-black text-xl text-gray-900 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden group"
             style={{
