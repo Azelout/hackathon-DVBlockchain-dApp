@@ -160,9 +160,35 @@ const useGameActions = () => {
                 transaction: tx as any,
             },
             {
-                onSuccess: (result) => {
+                onSuccess: async (result) => {
                     console.log('PoC Game Started', result)
-                    if (onSuccess) onSuccess(result)
+
+                    // Fetch full transaction details to get objectChanges
+                    // Retry with delay since transaction needs to be indexed
+                    const fetchWithRetry = async (retries = 5, delay = 500) => {
+                        for (let i = 0; i < retries; i++) {
+                            try {
+                                await new Promise(resolve => setTimeout(resolve, delay * (i + 1)))
+                                const txDetails = await client.getTransactionBlock({
+                                    digest: result.digest,
+                                    options: {
+                                        showEffects: true,
+                                        showObjectChanges: true,
+                                    }
+                                })
+                                console.log('Transaction Details:', txDetails)
+                                if (onSuccess) onSuccess(txDetails)
+                                return
+                            } catch (error) {
+                                if (i === retries - 1) {
+                                    console.error('Error fetching transaction details after retries:', error)
+                                    if (onSuccess) onSuccess(result)
+                                }
+                            }
+                        }
+                    }
+
+                    fetchWithRetry()
                 },
                 onError: (error) => {
                     console.error('Error starting PoC game', error)
@@ -201,6 +227,29 @@ const useGameActions = () => {
         )
     }
 
+    const abandonGame = (gameId: string, onSuccess?: () => void) => {
+        const tx = new Transaction()
+        tx.moveCall({
+            target: `${packageId}::game::abandon_game`,
+            arguments: [tx.object(gameId)],
+        })
+
+        signAndExecuteTransaction(
+            {
+                transaction: tx as any,
+            },
+            {
+                onSuccess: (result) => {
+                    console.log('Game abandoned', result)
+                    if (onSuccess) onSuccess()
+                },
+                onError: (error) => {
+                    console.error('Error abandoning game', error)
+                }
+            },
+        )
+    }
+
     return {
         createLobby,
         joinLobby,
@@ -209,6 +258,7 @@ const useGameActions = () => {
         resolveGame,
         startPocGame,
         mintCard,
+        abandonGame,
     }
 }
 

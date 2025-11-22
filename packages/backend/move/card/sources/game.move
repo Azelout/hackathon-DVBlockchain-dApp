@@ -302,3 +302,52 @@ public fun resolve_game(game: &mut Game, r: &Random, ctx: &mut TxContext) {
         };
     };
 }
+
+// Allow players to abandon a game and retrieve their cards
+public fun abandon_game(
+    game: Game,
+    ctx: &TxContext
+) {
+    // Only players in the game can abandon it
+    assert!(game.player1 == ctx.sender() || game.player2 == ctx.sender(), 0);
+    
+    let Game { 
+        id, 
+        player1, 
+        player2, 
+        mut deck1, 
+        mut deck2, 
+        mut hand1, 
+        mut hand2,
+        turn: _,
+        p1_swapped: _,
+        p2_swapped: _,
+        is_finished: _,
+    } = game;
+    
+    // Return all cards to player1
+    while (!deck1.is_empty()) {
+        transfer::public_transfer(deck1.pop_back(), player1);
+    };
+    while (!hand1.is_empty()) {
+        transfer::public_transfer(hand1.pop_back(), player1);
+    };
+    
+    // Return all cards to player2 (or burn them if they're dummy cards)
+    while (!deck2.is_empty()) {
+        let card = deck2.pop_back();
+        transfer::public_transfer(card, player2);
+    };
+    while (!hand2.is_empty()) {
+        let card = hand2.pop_back();
+        transfer::public_transfer(card, player2);
+    };
+    
+    // Destroy empty vectors
+    deck1.destroy_empty();
+    deck2.destroy_empty();
+    hand1.destroy_empty();
+    hand2.destroy_empty();
+    
+    object::delete(id);
+}

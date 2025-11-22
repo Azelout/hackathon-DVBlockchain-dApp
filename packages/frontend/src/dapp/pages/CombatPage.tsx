@@ -15,7 +15,7 @@ interface PlayerState {
 
 const CombatPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate }) => {
     const currentAccount = useCurrentAccount();
-    const { createLobby, joinLobby, playTurn, swapCard, resolveGame, startPocGame } = useGameActions();
+    const { createLobby, joinLobby, playTurn, swapCard, resolveGame, startPocGame, abandonGame } = useGameActions();
     const { useNetworkVariable } = useNetworkConfig();
     const packageId = useNetworkVariable(CONTRACT_PACKAGE_VARIABLE_NAME);
 
@@ -114,6 +114,17 @@ const CombatPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNaviga
         });
     };
 
+    const handleAbandonGame = () => {
+        if (!gameState) return;
+        if (confirm("Are you sure you want to abandon this game? All cards will be returned to both players.")) {
+            abandonGame(gameState.data.objectId, () => {
+                alert("Game abandoned! Your cards have been returned.");
+                setGameState(null);
+                setActiveGameId(null);
+            });
+        }
+    };
+
     const handleCreateLobby = () => {
         if (myState.allCards.length < 7) {
             alert("You need at least 7 Game Cards to play!");
@@ -143,34 +154,21 @@ const CombatPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNaviga
         startPocGame(cardsToPledge, ENNEMY_PLAYER_ADRESS, (result) => {
             alert("PoC Game Started! (Check console/UI)");
 
-            // Extract Game ID from effects
-            const createdObjects = result.effects?.created || [];
-            // We look for the object that is NOT a Coin (assuming Game is the only other created object)
-            // A better way would be to check the type, but for PoC this is fine.
-            // Or we can just fetch all created objects and check their type.
+            // Extract Game ID from objectChanges (more reliable)
+            const objectChanges = result.objectChanges || [];
+            console.log("Object Changes:", objectChanges);
 
-            // For now, let's try to find the Game object ID.
-            // Since we don't have the type in the effects easily without fetching, 
-            // we will just refetch games (which might fail if shared) AND try to set it manually if we can identify it.
+            const gameObj = objectChanges.find((change: any) =>
+                change.type === 'created' &&
+                change.objectType.includes('::game::Game')
+            );
 
-            // Actually, for shared objects, they appear in `created` list.
-            // Let's just log it for now and try to fetch it.
-            console.log("Created Objects:", createdObjects);
-
-            // Hack: The Game object is likely the one that is NOT the Coin (if any) or just one of them.
-            // Let's try to fetch the first created object that is a shared object.
-            const gameObj = createdObjects.find((obj: any) => obj.owner?.Shared);
-
-            if (gameObj) {
-                console.log("Found Game Object ID:", gameObj.reference.objectId);
-                // We need to fetch the object content to set gameState
-                // We can't use setGameState directly with the effect object.
-                // We need to trigger a fetch.
-                // Let's use a new state `activeGameId` to trigger a specific fetch.
-                setActiveGameId(gameObj.reference.objectId);
+            if (gameObj && 'objectId' in gameObj) {
+                console.log("Found Game Object ID:", gameObj.objectId);
+                setActiveGameId(gameObj.objectId);
             } else {
-                console.log("No Game Object found in effects");
-                // Fallback
+                console.log("No Game Object found in objectChanges");
+                // Fallback to effects if needed, or just refetch
                 refetchGames();
             }
         });
@@ -296,6 +294,12 @@ const CombatPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNaviga
                             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-bold shadow-lg border-2 border-red-400"
                         >
                             End Game (Resolve)
+                        </button>
+                        <button
+                            onClick={handleAbandonGame}
+                            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full font-bold shadow-lg border-2 border-gray-400"
+                        >
+                            Abandon Game
                         </button>
                     </div>
 

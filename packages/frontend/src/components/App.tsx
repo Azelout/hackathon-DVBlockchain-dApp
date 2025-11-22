@@ -76,7 +76,7 @@ const MainContent: FC = () => {
             }}
           >
             <span className="relative z-10">Back to Home</span>
-            <div 
+            <div
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
                 background: 'linear-gradient(145deg, #ffffff 0%, #d0d0d0 20%, #ffffff 40%, #b0b0b0 60%, #ffffff 80%, #c8c8c8 100%)',
