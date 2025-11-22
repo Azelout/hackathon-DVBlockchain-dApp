@@ -1,3 +1,15 @@
+# Logs
+logs
+*.log
+pnpm-debug.log*
+
+# Misc
 node_modules
-.env
-.DS_Store
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+
+# Arweave
+arweave-keyfile*
