@@ -92,6 +92,23 @@ public fun create(
     transfer::transfer(card, ctx.sender());
 }
 
+public(package) fun mint(
+    name: String,
+    img: String,
+    label: String,
+    points: u64,
+    ctx: &mut TxContext
+): Card {
+    Card {
+        id: object::new(ctx),
+        game: utf8(b"Game Card"),
+        name,
+        img,
+        label,
+        points,
+    }
+}
+
 // === Public-View Functions ===
 
 public fun game(card: &Card): String {

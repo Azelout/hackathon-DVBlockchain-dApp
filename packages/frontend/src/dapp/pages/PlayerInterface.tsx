@@ -1,6 +1,7 @@
 import React from 'react';
 import useOwnCards from '~~/dapp/hooks/useOwnCards';
 import CardComponent from '~~/dapp/components/CardComponent';
+import useGameActions from '~~/dapp/hooks/useGameActions';
 
 /**
  * PlayerInterface Component
@@ -9,8 +10,9 @@ import CardComponent from '~~/dapp/components/CardComponent';
  * It provides options to find other players or practice alone.
  * It also displays the player's deck of objects.
  */
-const PlayerInterface: React.FC = () => {
-  const { data: cards, isPending, error } = useOwnCards();
+const PlayerInterface: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate }) => {
+  const { data: cards, isPending, error, refetch } = useOwnCards();
+  const { mintCard } = useGameActions();
 
   // Filter cards to only show "Card Game" cards
   const gameCards = React.useMemo(() => {
@@ -24,8 +26,9 @@ const PlayerInterface: React.FC = () => {
   // Placeholder function for navigation
   const handleNavigation = (destination: string) => {
     console.log(`Navigating to: ${destination}`);
-    // TODO: Implement actual navigation (e.g., using react-router-dom)
-    // navigate(destination);
+    if (destination === '/find-players') {
+      onNavigate('combat');
+    }
   };
 
   return (
@@ -45,6 +48,13 @@ const PlayerInterface: React.FC = () => {
           className="w-64 py-3 px-6 bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-lg transition duration-200 shadow-md"
         >
           Practice and Improve Yourself
+        </button>
+
+        <button
+          onClick={() => mintCard(refetch)}
+          className="w-64 py-3 px-6 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold text-lg transition duration-200 shadow-md"
+        >
+          Mint Dev Deck (+7)
         </button>
       </div>
 
