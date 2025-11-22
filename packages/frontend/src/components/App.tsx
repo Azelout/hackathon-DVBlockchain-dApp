@@ -7,6 +7,7 @@ import { FC, StrictMode, useState, useEffect } from 'react'
 import IndexPage from '~~/dapp/pages/IndexPage'
 import PlayerInterface from '~~/dapp/pages/PlayerInterface'
 import CombatPage from '~~/dapp/pages/CombatPage'
+import ShopPage from '~~/dapp/pages/ShopPage'
 import { APP_NAME } from '~~/config/main'
 import { getThemeSettings } from '~~/helpers/theme'
 import useNetworkConfig from '~~/hooks/useNetworkConfig'
@@ -18,7 +19,7 @@ const themeSettings = getThemeSettings()
 
 const MainContent: FC = () => {
   const currentAccount = useCurrentAccount()
-  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat'>('home')
+  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat' | 'shop'>('home')
 
   useEffect(() => {
     if (currentAccount) {
@@ -34,6 +35,8 @@ const MainContent: FC = () => {
         return <PlayerInterface onNavigate={(page: string) => setCurrentPage(page as any)} />
       case 'combat':
         return <CombatPage onNavigate={(page: string) => setCurrentPage(page as any)} />
+      case 'shop':
+        return <ShopPage onNavigate={(page: string) => setCurrentPage(page as any)} />
       default:
         return (
           <div>
