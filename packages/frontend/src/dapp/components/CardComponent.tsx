@@ -6,7 +6,8 @@ interface CardComponentProps {
 }
 
 const CardComponent: React.FC<CardComponentProps> = ({ card }) => {
-    const name = getResponseDisplayField(card, 'name') || 'Unknown Card'
+    const name = getResponseDisplayField(card, 'name') || 'Unknown Card name'
+    const label = getResponseDisplayField(card, 'label') || 'Unknown Card label'
     const img = getResponseDisplayField(card, 'image_url')
     const description = getResponseDisplayField(card, 'description')
 
@@ -30,7 +31,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ card }) => {
             {/* Info Section */}
             <div className="p-3 flex flex-col flex-grow justify-between bg-gray-900">
                 <div>
-                    <h3 className="font-bold text-white text-sm truncate" title={name}>{name}</h3>
+                    <h3 className="font-bold text-white text-sm truncate" title={name}>{label}</h3>
                     <p className="text-xs text-gray-400 mt-1 line-clamp-2" title={description || ''}>
                         {description}
                     </p>

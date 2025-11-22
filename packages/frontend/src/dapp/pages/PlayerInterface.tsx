@@ -53,26 +53,26 @@ const PlayerInterface: React.FC = () => {
 
       {/* Bottom Section: Deck of Objects */}
       <div className="w-full border-t border-gray-700 pt-4 pb-8">
-        <h2 className="text-xl font-bold mb-4 text-center">Your Deck</h2>
+        <h2 className="text-xl font-bold mb-4 text-center">Your Cards</h2>
 
         {/* Horizontal Deck Container */}
         <div className="flex overflow-x-auto space-x-4 px-4 pb-2 justify-center min-h-[260px]">
 
           {isPending && (
             <div className="flex items-center justify-center text-gray-400">
-              Loading deck...
+              Loading cards...
             </div>
           )}
 
           {error && (
             <div className="flex items-center justify-center text-red-400">
-              Error loading deck
+              Error loading cards
             </div>
           )}
 
           {!isPending && !error && gameCards.length === 0 && (
             <div className="flex items-center justify-center text-gray-500 italic">
-              No game cards found. Create some!
+              Oh no! You don't have any cards!
             </div>
           )}
 
