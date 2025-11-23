@@ -34,13 +34,13 @@ const PracticeGame: React.FC<PracticeGameProps> = ({ onNavigate, difficulty, sty
 
   // Helper to get random cards from AI deck (excluding dos card back)
   const getRandomCards = (count: number) => {
-    const playableCards = cards.filter(c => c.name !== 'dos');
+    const playableCards = cards.filter(c => !c.excludeFromBoosters);
     const shuffled = [...playableCards].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
   const getRandomCard = () => {
-    const playableCards = cards.filter(c => c.name !== 'dos');
+    const playableCards = cards.filter(c => !c.excludeFromBoosters);
     const randomIndex = Math.floor(Math.random() * playableCards.length);
     return playableCards[randomIndex];
   };
@@ -193,8 +193,8 @@ const PracticeGame: React.FC<PracticeGameProps> = ({ onNavigate, difficulty, sty
   };
 
   const endGame = () => {
-    const userTotal = userCards.reduce((sum, card) => sum + parseInt(card.points), 0);
-    const aiTotal = aiCards.reduce((sum, card) => sum + parseInt(card.points), 0);
+    const userTotal = userCards.reduce((sum, card) => sum + card.points, 0);
+    const aiTotal = aiCards.reduce((sum, card) => sum + card.points, 0);
     
     if (userTotal > aiTotal) {
       setWinner('You');
@@ -300,11 +300,11 @@ const PracticeGame: React.FC<PracticeGameProps> = ({ onNavigate, difficulty, sty
                               <div className="mt-8 flex gap-8 justify-center">
                                   <div className="text-left">
                                       <p className="text-gray-400">You</p>
-                                      <p className="text-3xl font-bold">{userCards.reduce((a, b) => a + parseInt(b.points), 0)} pts</p>
+                                      <p className="text-3xl font-bold">{userCards.reduce((a, b) => a + b.points, 0)} pts</p>
                                   </div>
                                   <div className="text-right">
                                       <p className="text-gray-400">Nimbus AI</p>
-                                      <p className="text-3xl font-bold">{aiCards.reduce((a, b) => a + parseInt(b.points), 0)} pts</p>
+                                      <p className="text-3xl font-bold">{aiCards.reduce((a, b) => a + b.points, 0)} pts</p>
                                   </div>
                               </div>
                               {winner !== 'You' && (
