@@ -52,8 +52,20 @@ const ShopPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate
         `
       }}
     >
+      {/* Top Left Corner Image */}
+      <div className="absolute -top-12 left-16 z-10 w-64">
+        <img 
+          src="https://media.discordapp.net/attachments/1220436814448427079/1442073432937463810/Untitled_Artwork.png?ex=69241b0a&is=6922c98a&hm=05a696baa50038efdbff9d6827ed8c3b0eb190778ab213841c2e6dfcc9d99665&=&format=webp&quality=lossless&width=420&height=504"
+          alt="Corner decoration"
+          className="w-full h-auto block"
+          style={{
+            filter: 'drop-shadow(0 0 20px rgba(192, 192, 192, 0.6))'
+          }}
+        />
+      </div>
+      
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-center items-center mb-8 mt-8 relative">
         <h1 
           className="text-5xl font-black tracking-wider"
           style={{
@@ -67,12 +79,12 @@ const ShopPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate
             letterSpacing: '0.1em'
           }}
         >
-          SHOP
+          market
         </h1>
         
         <button
           onClick={() => onNavigate('player')}
-          className="relative px-6 py-2 rounded-3xl font-black text-lg text-gray-900 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden group"
+          className="absolute right-8 top-4 px-6 py-2 rounded-3xl font-black text-lg text-gray-900 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden group"
           style={{
             background: 'linear-gradient(145deg, #ffffff 0%, #b8b8b8 15%, #e8e8e8 30%, #a0a0a0 45%, #f0f0f0 60%, #909090 75%, #e0e0e0 90%, #c0c0c0 100%)',
             boxShadow: `
@@ -105,8 +117,8 @@ const ShopPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate
       </div>
 
       {/* Shop Content */}
-      <div className="flex-grow flex items-start pt-20 justify-center pr-32">
-        <div className="flex flex-row items-center gap-32">
+      <div className="flex-grow flex items-start pt-32 justify-center">
+        <div className="flex flex-row items-center gap-32 ml-32">
           <div className="relative group">
             <img 
               src="/shop_question_mark.jpg" 

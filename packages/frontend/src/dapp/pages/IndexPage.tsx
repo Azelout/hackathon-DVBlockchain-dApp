@@ -52,8 +52,18 @@ const IndexPage: FC = () => {
                 </h2>
               </div>
             </div>
-
-
+            <p 
+              className="text-xs tracking-wide"
+              style={{
+                position: 'absolute',
+                bottom: '2rem',
+                color: '#888888',
+                opacity: 0.7,
+                letterSpacing: '0.1em'
+              }}
+            >
+              powered by sui blockchain
+            </p>
           </>
         )}
       </div>
