@@ -8,7 +8,7 @@ import IndexPage from '~~/dapp/pages/IndexPage'
 import PlayerInterface from '~~/dapp/pages/PlayerInterface'
 import CombatPage from '~~/dapp/pages/CombatPage'
 import ShopPage from '~~/dapp/pages/ShopPage'
-import PracticePage from '~~/dapp/pages/PracticePage'
+import PvPArena from '~~/dapp/pages/PvPArena'
 import { APP_NAME } from '~~/config/main'
 import { getThemeSettings } from '~~/helpers/theme'
 import useNetworkConfig from '~~/hooks/useNetworkConfig'
@@ -20,7 +20,7 @@ const themeSettings = getThemeSettings()
 
 const MainContent: FC = () => {
   const currentAccount = useCurrentAccount()
-  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat' | 'shop' | 'practice'>('home')
+  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat' | 'shop' | 'pvp'>('home')
 
   useEffect(() => {
     if (currentAccount) {
@@ -38,8 +38,8 @@ const MainContent: FC = () => {
         return <CombatPage onNavigate={(page: string) => setCurrentPage(page as any)} />
       case 'shop':
         return <ShopPage onNavigate={(page: string) => setCurrentPage(page as any)} />
-      case 'practice':
-        return <PracticePage onNavigate={(page: string) => setCurrentPage(page as any)} />
+      case 'pvp':
+        return <PvPArena onNavigate={(page: string) => setCurrentPage(page as any)} />
       default:
         return (
           <div>

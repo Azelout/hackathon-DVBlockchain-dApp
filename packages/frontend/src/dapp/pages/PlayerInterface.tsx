@@ -30,8 +30,8 @@ const PlayerInterface: React.FC<{ onNavigate: (page: string) => void }> = ({ onN
       onNavigate('combat');
     } else if (destination === '/shop') {
       onNavigate('shop');
-    } else if (destination === '/practice') {
-      onNavigate('practice');
+    } else if (destination === '/pvp') {
+      onNavigate('pvp');
     }
   };
 
@@ -215,7 +215,7 @@ const PlayerInterface: React.FC<{ onNavigate: (page: string) => void }> = ({ onN
           </button>
 
           <button
-            onClick={() => handleNavigation('/practice')}
+            onClick={() => handleNavigation('/pvp')}
             className="relative w-80 py-5 px-10 rounded-3xl font-black text-2xl text-gray-900 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden group"
             style={{
               background: 'linear-gradient(145deg, #ffffff 0%, #b8b8b8 15%, #e8e8e8 30%, #a0a0a0 45%, #f0f0f0 60%, #909090 75%, #e0e0e0 90%, #c0c0c0 100%)',
