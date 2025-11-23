@@ -201,6 +201,40 @@ const useGameActions = () => {
         )
     }
 
+    const mintSpecificCard = (
+        name: string,
+        img: string,
+        label: string,
+        points: number,
+        onSuccess?: () => void
+    ) => {
+        const tx = new Transaction()
+        tx.moveCall({
+            target: `${packageId}::card::create`,
+            arguments: [
+                tx.pure.string(name),
+                tx.pure.string(img),
+                tx.pure.string(label),
+                tx.pure.u64(points),
+            ],
+        })
+
+        signAndExecuteTransaction(
+            {
+                transaction: tx as any,
+            },
+            {
+                onSuccess: (result) => {
+                    console.log('Specific Card Minted', result)
+                    if (onSuccess) onSuccess()
+                },
+                onError: (error) => {
+                    console.error('Error minting specific card', error)
+                }
+            },
+        )
+    }
+
     return {
         createLobby,
         joinLobby,
@@ -209,6 +243,7 @@ const useGameActions = () => {
         resolveGame,
         startPocGame,
         mintCard,
+        mintSpecificCard,
     }
 }
 

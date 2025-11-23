@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import useGameActions from '../hooks/useGameActions';
+import { cards } from '../../cards_data_file';
+import { Card } from '../../types/Card';
+import { X } from 'lucide-react';
 
 /**
  * ShopPage Component
@@ -6,6 +10,35 @@ import React from 'react';
  * This page displays the shop interface where players can purchase items.
  */
 const ShopPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate }) => {
+  console.log('ShopPage rendering');
+  const { mintSpecificCard } = useGameActions();
+  console.log('useGameActions loaded');
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const [showNotification, setShowNotification] = useState(false);
+
+  if (!cards || cards.length === 0) {
+    console.error('Cards data is missing or empty');
+    return <div>Error: Cards data not loaded</div>;
+  }
+
+  const handleBuyBooster = () => {
+    // Randomly select a card
+    const randomIndex = Math.floor(Math.random() * cards.length);
+    const card = cards[randomIndex];
+
+    // Trigger minting transaction
+    mintSpecificCard(
+      card.name,
+      card.url,
+      card.label,
+      card.points,
+      () => {
+        // On success, show card and notification
+        setSelectedCard(card);
+        setShowNotification(true);
+      }
+    );
+  };
   return (
     <div 
       className="flex flex-col h-screen text-white p-4"
@@ -112,6 +145,24 @@ const ShopPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate
                 }}
               />
             </div>
+
+            {/* Selected Card Overlay */}
+            {selectedCard && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center animate-in fade-in zoom-in duration-500">
+                <img 
+                  src={selectedCard.url} 
+                  alt={selectedCard.name}
+                  className="w-full h-full object-contain drop-shadow-2xl rounded-xl"
+                />
+                <div className="absolute -bottom-16 left-0 right-0 text-center bg-black/80 backdrop-blur-md p-4 rounded-xl border border-white/20">
+                  <h3 className="text-xl font-bold text-white mb-1">{selectedCard.label}</h3>
+                  <div className="flex justify-center gap-4 text-sm text-gray-300">
+                    <span className="capitalize">{selectedCard.type}</span>
+                    <span className="text-yellow-400 font-bold">{selectedCard.points} PTS</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Promotional text */}
@@ -132,9 +183,63 @@ const ShopPage: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate
             <p className="text-xl text-gray-300 whitespace-nowrap">
               ✧ Crack a booster and uncover the unexpected! ✧
             </p>
+            
+            <button
+              onClick={handleBuyBooster}
+              className="mt-8 relative px-8 py-3 rounded-3xl font-black text-xl text-gray-900 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden group"
+              style={{
+                background: 'linear-gradient(145deg, #ffffff 0%, #b8b8b8 15%, #e8e8e8 30%, #a0a0a0 45%, #f0f0f0 60%, #909090 75%, #e0e0e0 90%, #c0c0c0 100%)',
+                boxShadow: `
+                  0 20px 40px rgba(0,0,0,0.6),
+                  0 10px 20px rgba(0,0,0,0.4),
+                  inset 0 3px 8px rgba(255,255,255,0.9),
+                  inset 0 -3px 8px rgba(0,0,0,0.4),
+                  inset 3px 0 8px rgba(255,255,255,0.5),
+                  inset -3px 0 8px rgba(0,0,0,0.3),
+                  0 0 20px rgba(255,255,255,0.3)
+                `,
+                textShadow: '0 2px 4px rgba(255,255,255,0.9), 0 -1px 2px rgba(0,0,0,0.3)',
+                transform: 'perspective(1000px) rotateX(2deg)'
+              }}
+            >
+              <span className="relative z-10">Buy Booster</span>
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: 'linear-gradient(145deg, #ffffff 0%, #d0d0d0 20%, #ffffff 40%, #b0b0b0 60%, #ffffff 80%, #c8c8c8 100%)',
+                  boxShadow: `
+                    0 25px 50px rgba(0,0,0,0.7),
+                    inset 0 4px 12px rgba(255,255,255,1),
+                    inset 0 -4px 12px rgba(0,0,0,0.5),
+                    0 0 30px rgba(255,255,255,0.5)
+                  `
+                }}
+              />
+            </button>
           </div>
         </div>
       </div>
+
+
+      {/* Notification */}
+      {showNotification && selectedCard && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="bg-black/90 border border-white/20 p-8 rounded-2xl shadow-2xl max-w-md text-center pointer-events-auto relative animate-in fade-in slide-in-from-bottom-4 duration-300">
+            <button 
+              onClick={() => setShowNotification(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <span className="text-white font-bold">X</span>
+            </button>
+            <h3 className="text-2xl font-bold text-white mb-4">Congratulations!</h3>
+            <p className="text-gray-300 text-lg">
+              You have just obtained <span className="text-yellow-400 font-bold">{selectedCard.label}</span>, 
+              which is a <span className="text-blue-400 font-bold">{selectedCard.type}</span> card.
+              <br/>It is now in your wallet.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
