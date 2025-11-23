@@ -8,6 +8,7 @@ import IndexPage from '~~/dapp/pages/IndexPage'
 import PlayerInterface from '~~/dapp/pages/PlayerInterface'
 import CombatPage from '~~/dapp/pages/CombatPage'
 import ShopPage from '~~/dapp/pages/ShopPage'
+import PvPChallengePage from '~~/dapp/pages/PvPChallengePage'
 import PvPArena from '~~/dapp/pages/PvPArena'
 import { APP_NAME } from '~~/config/main'
 import { getThemeSettings } from '~~/helpers/theme'
@@ -20,26 +21,44 @@ const themeSettings = getThemeSettings()
 
 const MainContent: FC = () => {
   const currentAccount = useCurrentAccount()
-  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat' | 'shop' | 'pvp'>('home')
+  const [currentPage, setCurrentPage] = useState<'home' | 'player' | 'combat' | 'shop' | 'pvp' | 'pvpBattle'>('home')
+  const [pvpData, setPvpData] = useState<any>(null)
 
   useEffect(() => {
+    console.log('App: currentAccount changed', currentAccount);
     if (currentAccount) {
-      setCurrentPage('player')
+      // Only redirect to player if we are on the home page
+      // This prevents resetting to 'player' when navigating to 'shop' or 'pvp'
+      if (currentPage === 'home') {
+        console.log('App: Setting page to player because account connected and on home');
+        setCurrentPage('player')
+      }
     } else {
+      console.log('App: Setting page to home because no account');
       setCurrentPage('home')
     }
-  }, [currentAccount])
+  }, [currentAccount, currentPage])
+
+  console.log('App: Rendering page:', currentPage);
 
   const renderPage = () => {
     switch (currentPage) {
       case 'player':
-        return <PlayerInterface onNavigate={(page: string) => setCurrentPage(page as any)} />
+        return <PlayerInterface onNavigate={(page: string, data?: any) => {
+          setCurrentPage(page as any)
+          if (data) setPvpData(data)
+        }} />
       case 'combat':
         return <CombatPage onNavigate={(page: string) => setCurrentPage(page as any)} />
       case 'shop':
         return <ShopPage onNavigate={(page: string) => setCurrentPage(page as any)} />
       case 'pvp':
-        return <PvPArena onNavigate={(page: string) => setCurrentPage(page as any)} />
+        return <PvPChallengePage onNavigate={(page: string, data?: any) => {
+          setCurrentPage(page as any)
+          if (data) setPvpData(data)
+        }} />
+      case 'pvpBattle':
+        return <PvPArena onNavigate={(page: string) => setCurrentPage(page as any)} opponentWallet={pvpData?.opponentWallet} />
       default:
         return (
           <div>

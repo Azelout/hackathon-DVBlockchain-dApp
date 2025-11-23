@@ -6,15 +6,16 @@ import { PvPGameService, MatchRequest } from '../services/PvPGameService';
 
 interface PvPArenaProps {
   onNavigate: (page: string) => void;
+  opponentWallet?: string;
 }
 
 type ArenaState = 'menu' | 'create_match' | 'waiting' | 'playing';
 
-const PvPArena: React.FC<PvPArenaProps> = ({ onNavigate }) => {
+const PvPArena: React.FC<PvPArenaProps> = ({ onNavigate, opponentWallet }) => {
   const currentAccount = useCurrentAccount();
   const { data: cards, isPending } = useOwnCards();
   const [arenaState, setArenaState] = useState<ArenaState>('menu');
-  const [opponentAddress, setOpponentAddress] = useState('');
+  const [opponentAddress, setOpponentAddress] = useState(opponentWallet || '');
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [pendingRequests, setPendingRequests] = useState<MatchRequest[]>([]);
   const [currentGameId, setCurrentGameId] = useState<string | null>(null);
@@ -28,6 +29,15 @@ const PvPArena: React.FC<PvPArenaProps> = ({ onNavigate }) => {
       return gameField === "Game Card" && cardName !== "dos";
     });
   }, [cards]);
+
+  // Auto-start game if opponent wallet is provided
+  useEffect(() => {
+    if (opponentWallet && gameCards.length >= 7) {
+      setOpponentAddress(opponentWallet);
+      setArenaState('playing');
+      setCurrentGameId(`pvp_${Date.now()}`);
+    }
+  }, [opponentWallet, gameCards]);
 
   // Auto-select first 7 cards
   useEffect(() => {

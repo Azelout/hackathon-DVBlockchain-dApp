@@ -10,7 +10,7 @@ import CardComponent from '~~/dapp/components/CardComponent';
  * It provides options to find other players or practice alone.
  * It also displays the player's deck of objects.
  */
-const PlayerInterface: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate }) => {
+const PlayerInterface: React.FC<{ onNavigate: (page: string, data?: any) => void }> = ({ onNavigate }) => {
   const { data: cards, isPending, error } = useOwnCards();
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -27,11 +27,16 @@ const PlayerInterface: React.FC<{ onNavigate: (page: string) => void }> = ({ onN
   const handleNavigation = (destination: string) => {
     console.log(`Navigating to: ${destination}`);
     if (destination === '/find-players') {
+      console.log('Going to combat page');
       onNavigate('combat');
     } else if (destination === '/shop') {
+      console.log('Going to shop page');
       onNavigate('shop');
     } else if (destination === '/pvp') {
+      console.log('Going to PvP challenge page');
       onNavigate('pvp');
+    } else {
+      console.log('Unknown destination:', destination);
     }
   };
 
@@ -199,7 +204,7 @@ const PlayerInterface: React.FC<{ onNavigate: (page: string) => void }> = ({ onN
               transform: 'perspective(1000px) rotateX(2deg)'
             }}
           >
-            <span className="relative z-10">Player against other players</span>
+            <span className="relative z-10">Find your opponent</span>
             <div 
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
