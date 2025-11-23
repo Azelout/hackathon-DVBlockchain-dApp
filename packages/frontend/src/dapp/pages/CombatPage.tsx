@@ -26,14 +26,16 @@ const BattlePage: React.FC<BattlePageProps> = ({ onNavigate }) => {
 
   // Helper to get random cards
   const getRandomCards = (count: number) => {
-    const shuffled = [...cards].sort(() => 0.5 - Math.random());
+    const playableCards = cards.filter(c => !c.excludeFromBoosters);
+    const shuffled = [...playableCards].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
 
   // Helper to get random card
   const getRandomCard = () => {
-    const randomIndex = Math.floor(Math.random() * cards.length);
-    return cards[randomIndex];
+    const playableCards = cards.filter(c => !c.excludeFromBoosters);
+    const randomIndex = Math.floor(Math.random() * playableCards.length);
+    return playableCards[randomIndex];
   };
 
   // Initial Setup

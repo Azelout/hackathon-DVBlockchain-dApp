@@ -53,7 +53,7 @@ export const cards: Card[] = [
     {
         name: 'archivist',
         label: 'Archivist',
-        url: 'https://media.discordapp.net/attachments/1220436814448427079/1441880245555826738/Gemini_Generated_Image_fly5svfly5svfly5.png?ex=6923671f&is=6922159f&hm=0921c104769fe19bab447bc37d562be75e681e7ea1f8adfe4f65273c8f5a3676&=&format=webp&quality=lossless&width=617&height=744',
+        url: 'https://media.discordapp.net/attachments/1220436814448427079/1441880244263977051/Gemini_Generated_Image_r7ip84r7ip84r7ip.png?ex=69240fdf&is=6922be5f&hm=cbdade3e7543501634dd72a33e8c8a7740186f6023e1bc3afed9f88904fc1242&=&format=webp&quality=lossless&width=617&height=744',
         points: 73,
         type: 'rare',
     },
@@ -63,5 +63,6 @@ export const cards: Card[] = [
         url: 'https://media.discordapp.net/attachments/1220436814448427079/1441880244783943681/Gemini_Generated_Image_d6zoazd6zoazd6zo.png?ex=6923671f&is=6922159f&hm=8a1acc513df6247d8baafa94518e8af5f0b6d11e10bacc39dbaf7ed8d580fb8e&=&format=webp&quality=lossless&width=617&height=744',
         points: 0,
         type: 'common',
+        excludeFromBoosters: true,
     },
 ];

@@ -4,5 +4,6 @@ export interface Card {
     url: string;
     points: number;
     type: string;
+    excludeFromBoosters?: boolean;
 }
 
