@@ -5,3 +5,4 @@ export interface Card {
     points: number;
     type: string;
 }
+
