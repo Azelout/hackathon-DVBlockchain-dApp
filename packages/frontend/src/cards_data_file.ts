@@ -4,14 +4,14 @@ export const cards: Card[] = [
     {
         name: 'traveller',
         label: 'Traveller',
-        url: 'https://media.discordapp.net/attachments/1220436814448427079/1441880118229471383/IMG_0920.JPG?ex=69236701&is=69221581&hm=0eb40a452f47dee1663e5413644fa5ac20b120d583362faaa2bd6c8387048552&=&format=webp&width=150&height=180',
+        url: 'https://media.discordapp.net/attachments/1220436814448427079/1442054661870846013/Gemini_Generated_Image_hgmbxuhgmbxuhgmb.png?ex=6924098f&is=6922b80f&hm=e7d98787a7ea31499ce6b8c88eed0e84ae6511972f523bdb9d44d9a0e7aa189f&=&format=webp&quality=lossless&width=617&height=744',
         points: 50,
         type: 'common',
     },
     {
         name: 'blobby',
         label: 'Blobby',
-        url: 'https://media.discordapp.net/attachments/1220436814448427079/1441880118497644775/IMG_0919_1.JPG?ex=69236701&is=69221581&hm=0d82f5376af589438351bbd2d65a14e976ff78b18d4e2acc1e36c7e4e2491ee8&=&format=webp&width=150&height=180',
+        url: 'https://media.discordapp.net/attachments/1220436814448427079/1442054662206521355/Gemini_Generated_Image_8jhmdz8jhmdz8jhm.png?ex=6924098f&is=6922b80f&hm=95f49dba29ea2ba3631d9a684b3bda112bd06f7c818651f50e92aa17b4125d1d&=&format=webp&quality=lossless&width=617&height=744',
         points: 30,
         type: 'common',
     },
