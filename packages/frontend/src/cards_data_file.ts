@@ -57,4 +57,11 @@ export const cards: Card[] = [
         points: 73,
         type: 'rare',
     },
+    {
+        name: 'dos',
+        label: 'Card Back',
+        url: 'https://media.discordapp.net/attachments/1220436814448427079/1441880244783943681/Gemini_Generated_Image_d6zoazd6zoazd6zo.png?ex=6923671f&is=6922159f&hm=8a1acc513df6247d8baafa94518e8af5f0b6d11e10bacc39dbaf7ed8d580fb8e&=&format=webp&quality=lossless&width=617&height=744',
+        points: 0,
+        type: 'common',
+    },
 ];
