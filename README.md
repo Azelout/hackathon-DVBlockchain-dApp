@@ -34,7 +34,7 @@ Ensure you have the following installed on your machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/Azelout/hackathon-DVBlockchain-dApp.git](https://github.com/Azelout/hackathon-DVBlockchain-dApp.git)
+   git clone https://github.com/Azelout/hackathon-DVBlockchain-dApp.git
    cd hackathon-DVBlockchain-dApp
    ```
 2. **Install depencies:**
