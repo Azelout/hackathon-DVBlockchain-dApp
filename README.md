@@ -10,10 +10,10 @@ This repository was created for the **DV Blockchain SUI Hackathon** in Paris, de
 
 ## Key Features
 
-- ** NFT Marketplace**: A decentralized market where players can buy packs.
-- ** Random Packs**: Buying a pack generates a verifiable random card from the game collection using SUI's on-chain randomness.
-- ** Full Ownership**: All cards are minted as NFTs on the SUI blockchain, ensuring true ownership.
-- ** P2P Exchange**: Players can trade or exchange their NFT cards with others directly on-chain.
+- **NFT Marketplace**: A decentralized market where players can buy packs.
+- **Random Packs**: Buying a pack generates a verifiable random card from the game collection using SUI's on-chain randomness.
+- **Full Ownership**: All cards are minted as NFTs on the SUI blockchain, ensuring true ownership.
+- **P2P Exchange**: Players can trade or exchange their NFT cards with others directly on-chain.
 
 ## Tech Stack
 
@@ -44,7 +44,7 @@ Install dependencies:
 pnpm install
 ```
 
-*** Partners & Context***
+***Partners & Context***
 
 This project was built during the DV Blockchain SUI Hackathon (Paris).
 
@@ -52,6 +52,6 @@ Organized in partnership with:
 
 SUI Network & Institute for Future Technologies
 
-** License**
+**License**
 
 This project is licensed under the MIT License. Graphics for NFTs are licensed under CC-BY 4.0.
