@@ -16,7 +16,7 @@
     "deploy:arweave": "ARWEAVE_DEPLOYMENT=true pnpm run build && pnpx arkb deploy ./dist -w ./arweave-keyfile.json --auto-confirm"
   },
   "dependencies": {
-    "@mysten/dapp-kit": "^0.16.15",
+    "@mysten/dapp-kit": "^0.19.9",
     "@mysten/sui": "^1.36.0",
     "@mysten/wallet-standard": "^0.16.5",
     "@radix-ui/react-select": "^2.2.5",
